@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <h:form id="form-data">
+            <p:dataTable id="list_categoria" value="#{categoriaController.listar()}" var="p">
+                <p:column headerText="Codigo" filterBy="#{p.codigo}" filterMatchMode="contains">
+                    <p:outputLabel value="#{p.codigo}"/>
+                </p:column>
+                <p:column headerText="Nombre" filterBy="#{p.nombre}" filterMatchMode="contains">
+                    <p:outputLabel value="#{p.nombre}"/>
+                </p:column>
+                
+                <p:column headerText="Estado">
+                    <p:outputLabel value="#{p.estado}"/>
+                </p:column>
+                
+                <p:column headerText="Opciones">
+                    <p:commandButton value="Modificar" actionListener="#{categoriaController.edit(p)}" oncomplete="PF('widModify').show();" update="dialogo"  />
+                    <p:commandButton value="Eliminar" actionListener="#{categoriaController.eliminar(p)}" update="list_categoria" />
+                </p:column>
+            </p:dataTable>
+            </h:form>
+        <hr/>
+        <f:view id="viewFormCreate">
+
+
+            <h:form id="formCreate">
+                <h1><h:outputText value="Create/Edit"/></h1>
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="Codigo:" for="codigo" />
+                    <p:inputText id="codigo" value="#{categoriaController.categoria.codigo}" title="Codigo" />
+                    <p:outputLabel value="Nombre:" for="nombre" />
+                    <p:inputText id="nombre" value="#{categoriaController.categoria.nombre}" title="Nombre" />
+                    <p:outputLabel value="Estado:" for="estado" />
+                    <p:inputText id="estado" value="#{categoriaController.categoria.estado}" title="Estado" />
+                    <p:commandButton value="Guardar" actionListener="#{categoriaController.registrar()}" update=":form-data:list_categoria" />
+                    <p:commandButton value="limpiar" actionListener="#{categoriaController.limpiar()}" />
+                    
+                </p:panelGrid>
+            </h:form>
+        </f:view>
+
+        <p:dialog id="dialogo" widgetVar="widModify" header="Modificar Categoria">
+
+
+            <h:form>
+                <h1><h:outputText value="Edit"/></h1>
+                <p:panelGrid columns="2">
+                    <p:outputLabel  value="Codigo:" for="codigo" />
+                    <p:inputText required="true"  id="codigo"  value="#{categoriaController.categoria.codigo}" title="Codigo" />
+                    <p:outputLabel value="Nombre:" for="nombre" />
+                    <p:inputText id="nombre" value="#{categoriaController.categoria.nombre}" title="Nombre" />
+                    <p:outputLabel value="Estado:" for="estado" />
+                    <p:inputText id="estado" value="#{categoriaController.categoria.estado}" title="Estado" />
+                    <p:commandButton value="Modificar" actionListener="#{categoriaController.modificar()}"  update=":form-data:list_categoria" />
+                    <p:commandButton value="cancelar"  onclick="PF('widModify').hide();" />
+                    
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+
+      
+    </h:body>
+</html>
+
